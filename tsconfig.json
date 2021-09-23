@@ -1,0 +1,15 @@
+{
+    "compilerOptions": {
+        "target": "ES2020",
+        "moduleResolution": "node",
+        "strict": true,
+        "skipLibCheck": true, // both 'ws' and 'snowpack' have some issues
+
+        "declaration": true,
+        "declarationDir": "lib",
+
+        "module": "commonjs",
+        "outDir": "lib/cjs"
+    },
+    "include": ["src"]
+}
