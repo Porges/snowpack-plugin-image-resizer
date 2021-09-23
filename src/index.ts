@@ -54,24 +54,32 @@ export default function plugin(snowpackConfig: SnowpackConfig, options?: Options
       const data = await fs.readFile(filePath, 'binary');
       const rawData = Buffer.from(data, 'binary');
 
+      const img = sharp(rawData).rotate(/* handle EXIF orientation */);
+      const { width, height } = await img.metadata();
+
+      if (!width || !height) {
+        throw new Error(`Image metadata not found for ${filePath}`);
+      }
+
       if (rawData.length <= inlineSizeLimit) {
         const encoded = rawData.toString('base64');
         const mimeType = mime.getType(fileExt);
+
+        const src = `data:${mimeType};base64,${encoded}`;
+        const jsExport: ImageImport = {
+          src,
+          width,
+          height,
+          images: [{ src, width }],
+          srcset: '',
+        };
+
         return {
-          [".js"]: {
-            code: `export default 'data:${mimeType};base64,${encoded}'`
-          },
+          [".js"]: { code: `export default ${JSON.stringify(jsExport)}` },
         }
       } else {
-        const img = sharp(rawData).rotate(/* handle EXIF orientation */);
-        const { width, height } = await img.metadata();
-
-        if (!width || !height) {
-          throw new Error(`Image metadata not found for ${filePath}`);
-        }
 
         const url = toUrl(snowpackConfig, filePath);
-
         const goodSizes = sizes.filter(s => s < width);
 
         const resized = await Promise.all(goodSizes.map(async size => ({

@@ -1,6 +1,6 @@
 {
   "name": "snowpack-plugin-image-resizer",
-  "version": "0.0.1",
+  "version": "0.0.2",
   "description": "Loads images and contorts them in various ways.",
   "main": "lib/cjs/index.js",
   "module": "lib/esm/index.js",
