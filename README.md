@@ -1,6 +1,6 @@
 # snowpack-plugin-image-resizer
 
-![npm](https://img.shields.io/npm/v/snowpack-plugin-image-resizer)
+[![npm](https://img.shields.io/npm/v/snowpack-plugin-image-resizer)](https://www.npmjs.com/package/snowpack-plugin-image-resizer)
 
 A [snowpack](https://github.com/snowpackjs/snowpack#readme) plugin for loading images and resizing them to use as responsive images.
 
